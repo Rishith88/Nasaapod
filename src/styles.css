@@ -83,7 +83,6 @@ body {
 .icon-btn {
   background: var(--card);
   border: 1px solid var(--card-border);
-  border-radius: 10px;
   color: var(--text-dim);
   width: 34px;
   height: 34px;
@@ -199,7 +198,6 @@ body {
 .tile-icon {
   width: 52px;
   height: 52px;
-  border-radius: 14px;
   display: grid;
   place-items: center;
   font-size: 24px;
@@ -366,7 +364,6 @@ body {
   font-size: 0.85rem;
   padding: 12px 24px;
   border: 1px solid var(--accent);
-  border-radius: 999px;
   transition: background 0.2s, color 0.2s, box-shadow 0.2s;
   font-family: 'Nunito', sans-serif;
 }
@@ -460,7 +457,6 @@ body {
 .panel-add {
   background: var(--accent);
   border: none;
-  border-radius: 10px;
   color: #04121a;
   font-size: 18px;
   width: 40px;
@@ -664,7 +660,6 @@ body {
 .focus-btn {
   background: var(--accent);
   border: none;
-  border-radius: 999px;
   color: #04121a;
   font-weight: 700;
   font-size: 13px;
@@ -687,7 +682,6 @@ body {
   background: var(--card);
   border: 1px solid var(--card-border);
   color: var(--text-dim);
-  border-radius: 8px;
   padding: 4px 10px;
   font-size: 12px;
   cursor: pointer;
