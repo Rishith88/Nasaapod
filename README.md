@@ -1,11 +1,11 @@
 # Nasaapod
-# Astronomy 💓 — NASA APOD New Tab Page
+# Astronomy  — NASA APOD New Tab Page
 
 A custom new-tab page that fetches **NASA's Astronomy Picture of the Day** and wraps it in a full dashboard — live clock, search, weather, shortcuts, todos, notes, and a focus timer. Built with Vite + vanilla JavaScript.
 
 > Built for [Hack Club Stardance](https://stardance.hackclub.com) — Mission: *Give Your Website a Pulse*
 
-## Features
+ ** Features of this webpage**
 
 - **NASA APOD** — fetches the Astronomy Picture of the Day from the official API: title, image (or video/YouTube embed), and explanation, updated automatically every day
 - **Animated ECG heartbeat** — a glowing pulse line under the clock, the theme of the mission
