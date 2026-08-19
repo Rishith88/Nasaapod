@@ -79,7 +79,3 @@ export function startStarfield() {
   resize();
   requestAnimationFrame(frame);
 }
-
-
-
-
