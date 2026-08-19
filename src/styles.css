@@ -126,11 +126,7 @@ body {
   font-weight: 900;
   letter-spacing: 0.04em;
   line-height: 1;
-  background: linear-gradient(180deg, #fff, var(--accent));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  filter: drop-shadow(0 0 24px rgba(34, 211, 238, 0.35));
+  color: var(--accent);
 }
 
 .date {
@@ -272,7 +268,6 @@ body {
   border-top-color: #22d3ee;
   border-right-color: #7c3aed;
   animation: spin 1s linear infinite;
-  filter: drop-shadow(0 0 8px rgba(34, 211, 238, 0.7));
 }
 
 .loader-ring::after {
@@ -331,7 +326,7 @@ body {
   overflow: hidden;
   border-radius: 12px;
   border: 1px solid #2a3352;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(34, 211, 238, 0.15);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
   max-width: 640px;
   margin: 0 auto;
 }
@@ -640,7 +635,6 @@ body {
   stroke-linecap: round;
   stroke-dasharray: 326.7;
   stroke-dashoffset: 0;
-  filter: drop-shadow(0 0 6px rgba(34, 211, 238, 0.7));
   transition: stroke-dashoffset 0.5s linear;
 }
 
@@ -657,6 +651,7 @@ body {
   font-family: 'Nunito', sans-serif;
   font-size: 20px;
   font-weight: 900;
+  color: var(--accent);
 }
 
 .focus-label {

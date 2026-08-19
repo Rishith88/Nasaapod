@@ -378,7 +378,8 @@ const focusTime = $("#focusTime");
 const focusProgress = $("#focusProgress");
 const focusModes = $("#focusModes");
 
-const CIRCUMFERENCE = 2 * Math.PI * 52;
+// circumference of the r=52 progress circle, rounded
+const CIRCUMFERENCE = 326.7;
 focusProgress.style.strokeDasharray = CIRCUMFERENCE;
 
 let focusState = null;

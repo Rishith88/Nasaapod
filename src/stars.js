@@ -60,10 +60,7 @@ export function startStarfield() {
       const dist = Math.hypot(m.vx, m.vy);
       const tailX = m.x - (m.vx / dist) * m.len;
       const tailY = m.y - (m.vy / dist) * m.len;
-      const grad = ctx.createLinearGradient(m.x, m.y, tailX, tailY);
-      grad.addColorStop(0, `rgba(34, 211, 238, ${m.life})`);
-      grad.addColorStop(1, "rgba(34, 211, 238, 0)");
-      ctx.strokeStyle = grad;
+      ctx.strokeStyle = `rgba(34, 211, 238, ${m.life})`;
       ctx.lineWidth = 2;
       ctx.lineCap = "round";
       ctx.beginPath();
