@@ -1,4 +1,4 @@
-# Astronomy — NASA APOD New Tab Page
+# Astronomy --- The most futuristic and cool NASA APOD New Tab Page 
 
 A custom new-tab page that fetches "NASA's Astronomy Picture of the Day" and wraps it in a full dashboard -- live clock, search, weather, shortcuts, todos, notes, and a focus timer. Built with Vite + vanilla JavaScript.
 ## Features
