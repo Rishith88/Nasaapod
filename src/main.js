@@ -1,7 +1,6 @@
-import './styles.css';
-import { startStarfield } from './stars.js';
+import './style.css';
 
-const API_KEY = import.meta.env.VITE_NASA_API_KEY || "DEMO_KEY";
+const API_KEY = import.meta.env.VITE_NASA_API_KEY;
 
 const $ = (sel) => document.querySelector(sel);
 const store = {
@@ -28,9 +27,9 @@ const GREETINGS = [
   { min: 0, max: 5, text: "Still up?" },
 ];
 
-const clockEl = $("#clock");
-const dateEl = $("#date");
-const greetingEl = $("#greeting");
+const clk = $("#clock");
+const dt = $("#date");
+const gr = $("#greeting");
 
 function pad(n) {
   return String(n).padStart(2, "0");
@@ -38,8 +37,8 @@ function pad(n) {
 
 function tick() {
   const now = new Date();
-  clockEl.textContent = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
-  dateEl.textContent = now.toLocaleDateString(undefined, {
+  clk.textContent = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+  dt.textContent = now.toLocaleDateString(undefined, {
     weekday: "long",
     month: "long",
     day: "numeric",
@@ -47,17 +46,17 @@ function tick() {
   });
   const hour = now.getHours();
   const greeting = GREETINGS.find((g) => hour >= g.min && hour < g.max);
-  if (greeting && greetingEl.textContent !== greeting.text) {
-    greetingEl.textContent = greeting.text;
+  if (greeting && gr.textContent !== greeting.text) {
+    gr.textContent = greeting.text;
   }
 }
 
-const searchForm = $("#searchForm");
-const searchInput = $("#searchInput");
+const sf = $("#searchForm");
+const si = $("#searchInput");
 
-searchForm.addEventListener("submit", (e) => {
+sf.addEventListener("submit", (e) => {
   e.preventDefault();
-  const q = searchInput.value.trim();
+  const q = si.value.trim();
   if (!q) return;
   if (/^https?:\/\//i.test(q)) {
     window.location.href = q;
@@ -79,9 +78,8 @@ const DEFAULT_SHORTCUTS = [
   { name: "MDN", url: "https://developer.mozilla.org", emoji: "📚" },
 ];
 
-const speedDialEl = $("#speedDial");
-const settingsPanel = $("#settingsPanel");
-const shortcutEditor = $("#shortcutEditor");
+const sd = $("#speedDial");
+const se = $("#shortcutEditor");
 
 function getShortcuts() {
   return store.get("pulse.shortcuts", DEFAULT_SHORTCUTS);
@@ -92,7 +90,7 @@ function saveShortcuts(list) {
 }
 
 function renderShortcuts() {
-  speedDialEl.innerHTML = "";
+  sd.innerHTML = "";
   getShortcuts().forEach((s) => {
     const a = document.createElement("a");
     a.className = "tile";
@@ -106,43 +104,43 @@ function renderShortcuts() {
     name.className = "tile-name";
     name.textContent = s.name;
     a.append(icon, name);
-    speedDialEl.appendChild(a);
+    sd.appendChild(a);
   });
 }
 
 function renderShortcutEditor() {
-  shortcutEditor.innerHTML = "";
+  se.innerHTML = "";
   getShortcuts().forEach((s, i) => {
     const row = document.createElement("div");
     row.className = "shortcut-row";
 
-    const nameInput = document.createElement("input");
-    nameInput.value = s.name;
-    nameInput.placeholder = "Name";
-    nameInput.addEventListener("change", () => {
+    const ni = document.createElement("input");
+    ni.value = s.name;
+    ni.placeholder = "Name";
+    ni.addEventListener("change", () => {
       const list = getShortcuts();
-      list[i].name = nameInput.value;
+      list[i].name = ni.value;
       saveShortcuts(list);
       renderShortcuts();
     });
 
-    const emojiInput = document.createElement("input");
-    emojiInput.value = s.emoji || "";
-    emojiInput.placeholder = "Emoji";
-    emojiInput.maxLength = 4;
-    emojiInput.style.maxWidth = "64px";
-    emojiInput.addEventListener("change", () => {
+    const ei = document.createElement("input");
+    ei.value = s.emoji || "";
+    ei.placeholder = "Emoji";
+    ei.maxLength = 4;
+    ei.style.maxWidth = "64px";
+    ei.addEventListener("change", () => {
       const list = getShortcuts();
-      list[i].emoji = emojiInput.value;
+      list[i].emoji = ei.value;
       saveShortcuts(list);
       renderShortcuts();
     });
 
-    const urlInput = document.createElement("input");
-    urlInput.value = s.url;
-    urlInput.placeholder = "https://…";
-    urlInput.addEventListener("change", () => {
-      let url = urlInput.value.trim();
+    const ui = document.createElement("input");
+    ui.value = s.url;
+    ui.placeholder = "https://…";
+    ui.addEventListener("change", () => {
+      let url = ui.value.trim();
       if (url && !/^https?:\/\//i.test(url)) url = `https://${url}`;
       const list = getShortcuts();
       list[i].url = url;
@@ -150,11 +148,11 @@ function renderShortcutEditor() {
       renderShortcuts();
     });
 
-    const delBtn = document.createElement("button");
-    delBtn.className = "panel-add";
-    delBtn.textContent = "−";
-    delBtn.title = "Remove";
-    delBtn.addEventListener("click", () => {
+    const db = document.createElement("button");
+    db.className = "panel-add";
+    db.textContent = "−";
+    db.title = "Remove";
+    db.addEventListener("click", () => {
       const list = getShortcuts();
       list.splice(i, 1);
       saveShortcuts(list);
@@ -162,8 +160,8 @@ function renderShortcutEditor() {
       renderShortcutEditor();
     });
 
-    row.append(nameInput, emojiInput, urlInput, delBtn);
-    shortcutEditor.appendChild(row);
+    row.append(ni, ei, ui, db);
+    se.appendChild(row);
   });
 }
 
@@ -175,9 +173,9 @@ $("#addShortcut").addEventListener("click", () => {
   renderShortcutEditor();
 });
 
-const weatherEl = $("#weather");
-const weatherIcon = $("#weatherIcon");
-const weatherTemp = $("#weatherTemp");
+const we = $("#weather");
+const wi = $("#weatherIcon");
+const wt = $("#weatherTemp");
 
 const WEATHER_ICONS = {
   "0": "☀️",
@@ -217,16 +215,16 @@ async function fetchWeather(lat, lon) {
   if (!res.ok) throw new Error("weather request failed");
   const data = await res.json();
   const code = String(data.current.weather_code);
-  weatherIcon.textContent = WEATHER_ICONS[code] || "🌡️";
-  weatherTemp.textContent = `${Math.round(data.current.temperature_2m)}°`;
-  weatherEl.title = "Weather • click to refresh";
+  wi.textContent = WEATHER_ICONS[code] || "🌡️";
+  wt.textContent = `${Math.round(data.current.temperature_2m)}°`;
+  we.title = "Weather • click to refresh";
 }
 
 async function loadWeather() {
   const cached = store.get("pulse.weather", null);
   if (cached && Date.now() - cached.at < 10 * 60 * 1000) {
-    weatherIcon.textContent = cached.icon;
-    weatherTemp.textContent = cached.temp;
+    wi.textContent = cached.icon;
+    wt.textContent = cached.temp;
     return;
   }
   try {
@@ -238,26 +236,26 @@ async function loadWeather() {
     });
     await fetchWeather(pos.coords.latitude, pos.coords.longitude);
     store.set("pulse.weather", {
-      icon: weatherIcon.textContent,
-      temp: weatherTemp.textContent,
+      icon: wi.textContent,
+      temp: wt.textContent,
       at: Date.now(),
     });
   } catch {
-    weatherEl.title = "Weather unavailable — check location permission";
-    weatherTemp.textContent = "—°";
+    we.title = "Weather unavailable — check location permission";
+    wt.textContent = "—°";
   }
 }
 
-weatherEl.addEventListener("click", () => {
+we.addEventListener("click", () => {
   store.set("pulse.weather", null);
   loadWeather();
 });
 
-const todoList = $("#todoList");
-const todoForm = $("#todoForm");
-const todoInput = $("#todoInput");
-const todoCount = $("#todoCount");
-const todoClear = $("#todoClear");
+const tl = $("#todoList");
+const tf = $("#todoForm");
+const ti = $("#todoInput");
+const tc = $("#todoCount");
+const tx = $("#todoClear");
 
 function getTodos() {
   return store.get("pulse.todos", []);
@@ -269,9 +267,9 @@ function saveTodos(list) {
 
 function renderTodos() {
   const todos = getTodos();
-  todoList.innerHTML = "";
+  tl.innerHTML = "";
   const remaining = todos.filter((t) => !t.done).length;
-  todoCount.textContent = `${remaining} task${remaining === 1 ? "" : "s"} left`;
+  tc.textContent = `${remaining} task${remaining === 1 ? "" : "s"} left`;
   todos.forEach((t, i) => {
     const li = document.createElement("li");
     li.className = "todo-item" + (t.done ? " done" : "");
@@ -303,43 +301,43 @@ function renderTodos() {
     });
 
     li.append(check, text, del);
-    todoList.appendChild(li);
+    tl.appendChild(li);
   });
 }
 
-todoForm.addEventListener("submit", (e) => {
+tf.addEventListener("submit", (e) => {
   e.preventDefault();
-  const text = todoInput.value.trim();
+  const text = ti.value.trim();
   if (!text) return;
   const list = getTodos();
   list.push({ text, done: false });
   saveTodos(list);
-  todoInput.value = "";
+  ti.value = "";
   renderTodos();
 });
 
-todoClear.addEventListener("click", () => {
+tx.addEventListener("click", () => {
   saveTodos(getTodos().filter((t) => !t.done));
   renderTodos();
 });
 
-const notesArea = $("#notesArea");
-const notesSaved = $("#notesSaved");
+const na = $("#notesArea");
+const ns = $("#notesSaved");
 
-notesArea.value = store.get("pulse.notes", "");
+na.value = store.get("pulse.notes", "");
 
-let notesTimer = null;
-notesArea.addEventListener("input", () => {
-  notesSaved.textContent = "typing…";
-  clearTimeout(notesTimer);
-  notesTimer = setTimeout(() => {
-    store.set("pulse.notes", notesArea.value);
-    notesSaved.textContent = "saved";
+let nt = null;
+na.addEventListener("input", () => {
+  ns.textContent = "typing…";
+  clearTimeout(nt);
+  nt = setTimeout(() => {
+    store.set("pulse.notes", na.value);
+    ns.textContent = "saved";
   }, 500);
 });
 
 const panels = document.querySelectorAll(".panel");
-const panelToggles = {
+const toggles = {
   todoPanel: $("#todoToggle"),
   notesPanel: $("#notesToggle"),
   settingsPanel: $("#settingsToggle"),
@@ -351,7 +349,7 @@ function closeAllPanels(except) {
   });
 }
 
-Object.entries(panelToggles).forEach(([id, btn]) => {
+Object.entries(toggles).forEach(([id, btn]) => {
   btn.addEventListener("click", () => {
     const panel = document.getElementById(id);
     const wasOpen = panel.classList.contains("open");
@@ -372,80 +370,75 @@ document.addEventListener("click", (e) => {
   if (!insidePanel && !insideToggle) closeAllPanels();
 });
 
-const focusBtn = $("#focusBtn");
-const focusLabel = $("#focusLabel");
-const focusTime = $("#focusTime");
-const focusProgress = $("#focusProgress");
-const focusModes = $("#focusModes");
+const fb = $("#focusBtn");
+const fl = $("#focusLabel");
+const ft = $("#focusTime");
+const fp = $("#focusProgress");
+const fm = $("#focusModes");
 
-// circumference of the r=52 progress circle, rounded
-const CIRCUMFERENCE = 326.7;
-focusProgress.style.strokeDasharray = CIRCUMFERENCE;
+const CIR = 2 * Math.PI * 52;
+fp.style.strokeDasharray = CIR;
 
-let focusState = null;
+let fs = null;
 
 function focusTick() {
-  const elapsed = (Date.now() - focusState.started) / 1000;
-  const total = focusState.minutes * 60;
+  const elapsed = (Date.now() - fs.started) / 1000;
+  const total = fs.minutes * 60;
   const left = Math.max(0, total - elapsed);
   const mm = Math.floor(left / 60);
   const ss = Math.floor(left % 60);
-  focusTime.textContent = `${pad(mm)}:${pad(ss)}`;
-  focusProgress.style.strokeDashoffset = CIRCUMFERENCE * (1 - elapsed / total);
+  ft.textContent = `${pad(mm)}:${pad(ss)}`;
+  fp.style.strokeDashoffset = CIR * (1 - elapsed / total);
   if (left <= 0) {
-    clearInterval(focusState.interval);
-    focusState = null;
-    focusBtn.textContent = "Done ✓";
-    focusLabel.textContent = "finished";
-    focusProgress.style.strokeDashoffset = 0;
+    clearInterval(fs.interval);
+    fs = null;
+    fb.textContent = "Done ✓";
+    fl.textContent = "finished";
+    fp.style.strokeDashoffset = 0;
     try {
       new Notification("Pulse", { body: "Focus session complete. Nice work!" });
     } catch {}
   }
 }
 
-focusBtn.addEventListener("click", () => {
-  if (focusState) {
-    clearInterval(focusState.interval);
-    focusState = null;
-    focusBtn.textContent = "Start";
-    focusLabel.textContent = "start";
-    focusProgress.style.strokeDashoffset = 0;
-    focusTime.textContent = `${pad(focusModes.querySelector(".active").dataset.min)}:00`;
+fb.addEventListener("click", () => {
+  if (fs) {
+    clearInterval(fs.interval);
+    fs = null;
+    fb.textContent = "Start";
+    fl.textContent = "start";
+    fp.style.strokeDashoffset = 0;
+    ft.textContent = `${pad(fm.querySelector(".active").dataset.min)}:00`;
     return;
   }
-  const minutes = parseInt(focusModes.querySelector(".active").dataset.min, 10);
-  focusState = {
+  const minutes = parseInt(fm.querySelector(".active").dataset.min, 10);
+  fs = {
     minutes,
     started: Date.now(),
     interval: setInterval(focusTick, 250),
   };
-  focusBtn.textContent = "Cancel";
-  focusLabel.textContent = "focusing";
+  fb.textContent = "Cancel";
+  fl.textContent = "focusing";
   focusTick();
 });
 
-focusModes.addEventListener("click", (e) => {
+fm.addEventListener("click", (e) => {
   if (!e.target.classList.contains("focus-mode")) return;
-  focusModes.querySelectorAll(".focus-mode").forEach((m) => m.classList.remove("active"));
+  fm.querySelectorAll(".focus-mode").forEach((m) => m.classList.remove("active"));
   e.target.classList.add("active");
-  focusTime.textContent = `${pad(e.target.dataset.min)}:00`;
+  ft.textContent = `${pad(e.target.dataset.min)}:00`;
 });
-
-if ("Notification" in window && Notification.permission === "default") {
-  Notification.requestPermission().catch(() => {});
-}
 
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") closeAllPanels();
   if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
     e.preventDefault();
-    searchInput.focus();
-    searchInput.select();
+    si.focus();
+    si.select();
   }
   if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "n") {
     e.preventDefault();
-    todoInput.focus();
+    ti.focus();
   }
 });
 
@@ -453,10 +446,10 @@ const app = $("#app");
 const bg = document.createElement("div");
 bg.id = "bg";
 document.body.prepend(bg);
-const bgSlides = [];
+const bgs = [];
 
 function setBackground(url) {
-  if (bgSlides.some((s) => s.url === url)) return;
+  if (bgs.some((s) => s.url === url)) return;
   const img = new Image();
   img.onload = () => {
     const slide = document.createElement("div");
@@ -464,8 +457,8 @@ function setBackground(url) {
     slide.style.backgroundImage = `url("${url}")`;
     slide.url = url;
     bg.appendChild(slide);
-    bgSlides.push(slide);
-    if (bgSlides.length > 1) bgSlides[bgSlides.length - 2].classList.remove("active");
+    bgs.push(slide);
+    if (bgs.length > 1) bgs[bgs.length - 2].classList.remove("active");
     slide.classList.add("active");
     while (bg.children.length > 4) bg.firstElementChild.remove();
   };
@@ -493,10 +486,10 @@ async function loadBackground() {
 }
 
 setInterval(() => {
-  if (bgSlides.length < 2) return;
-  const idx = bgSlides.findIndex((s) => s.classList.contains("active"));
-  bgSlides[idx].classList.remove("active");
-  bgSlides[(idx + 1) % bgSlides.length].classList.add("active");
+  if (bgs.length < 2) return;
+  const idx = bgs.findIndex((s) => s.classList.contains("active"));
+  bgs[idx].classList.remove("active");
+  bgs[(idx + 1) % bgs.length].classList.add("active");
 }, 20000);
 
 function loadAPOD() {
@@ -518,7 +511,7 @@ function loadAPOD() {
       if (data.media_type === "image") {
         setBackground(data.url);
         media = `<img src="${data.url}" alt="${data.title}"/>`;
-      } else if (data.url?.includes("youtube")) {
+      } else if (data.url.includes("youtube")) {
         media = `<iframe src="${data.url.replace("watch?v=", "embed/")}" allowfullscreen></iframe>`;
       } else {
         media = `<video src="${data.url}" controls></video>`;
@@ -540,7 +533,6 @@ function loadAPOD() {
     });
 }
 
-startStarfield();
 loadBackground();
 loadAPOD();
 tick();
