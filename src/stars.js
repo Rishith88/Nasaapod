@@ -16,8 +16,7 @@ export function startStarfield() {
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
       r: Math.random() * 1.6 + 0.3,
-      phase: Math.random() * Math.PI * 2,
-      speed: Math.random() * 1.5 + 0.5,
+      a: 0.25 + Math.random() * 0.45,
     }));
   }
 
@@ -36,13 +35,11 @@ export function startStarfield() {
 
   function frame(t) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    const time = t / 1000;
 
     for (const s of stars) {
-      const a = 0.25 + 0.55 * Math.abs(Math.sin(s.phase + time * s.speed));
       ctx.beginPath();
       ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(226, 232, 240, ${a})`;
+      ctx.fillStyle = `rgba(226, 232, 240, ${s.a})`;
       ctx.fill();
     }
 
@@ -60,7 +57,10 @@ export function startStarfield() {
       const dist = Math.hypot(m.vx, m.vy);
       const tailX = m.x - (m.vx / dist) * m.len;
       const tailY = m.y - (m.vy / dist) * m.len;
-      ctx.strokeStyle = `rgba(34, 211, 238, ${m.life})`;
+      const grad = ctx.createLinearGradient(m.x, m.y, tailX, tailY);
+      grad.addColorStop(0, `rgba(34, 211, 238, ${m.life})`);
+      grad.addColorStop(1, "rgba(34, 211, 238, 0)");
+      ctx.strokeStyle = grad;
       ctx.lineWidth = 2;
       ctx.lineCap = "round";
       ctx.beginPath();
