@@ -2,6 +2,18 @@ import './style.css';
 
 const API_KEY = import.meta.env.VITE_NASA_API_KEY;
 
+// Stable NASA image pool so the background slideshow still works
+// even when the API key is missing (e.g. a fresh Netlify/GH Pages deploy).
+const FALLBACK_APOD_IMAGES = [
+  "https://images-assets.nasa.gov/image/PIA15415/PIA15415~medium.jpg",
+  "https://images-assets.nasa.gov/image/PIA00271/PIA00271~medium.jpg",
+  "https://images-assets.nasa.gov/image/GSFC_20171208_Archive_e000261/GSFC_20171208_Archive_e000261~medium.jpg",
+  "https://images-assets.nasa.gov/image/PIA17172/PIA17172~medium.jpg",
+  "https://images-assets.nasa.gov/image/PIA12110/PIA12110~medium.jpg",
+  "https://images-assets.nasa.gov/image/PIA19040/PIA19040~medium.jpg",
+  "https://images-assets.nasa.gov/image/PIA17041/PIA17041~medium.jpg",
+];
+
 const $ = (sel) => document.querySelector(sel);
 const store = {
   get(key, fallback) {
@@ -471,6 +483,9 @@ function fmtDate(d) {
 
 async function loadBackground() {
   try {
+    if (!API_KEY || API_KEY === "your_actual_key_here") {
+      throw new Error("no API key");
+    }
     const end = new Date();
     const start = new Date();
     start.setDate(end.getDate() - 6);
@@ -479,9 +494,13 @@ async function loadBackground() {
     );
     if (!res.ok) throw new Error("background request failed");
     const data = await res.json();
-    data.filter((d) => d.media_type === "image").forEach((d) => setBackground(d.url));
+    data
+      .filter((d) => d.media_type === "image" && d.url)
+      .forEach((d) => setBackground(d.url));
   } catch {
-    setBackground("https://apod.nasa.gov/apod/image/2408/BarredSpiral_WebbSchmidt_960.jpg");
+    // No key or the request failed — fall back to the stable image pool
+    // and always show the NASA background slideshow.
+    FALLBACK_APOD_IMAGES.forEach((u) => setBackground(u));
   }
 }
 
@@ -508,13 +527,18 @@ function loadAPOD() {
     .then(data => {
       let media;
 
-      if (data.media_type === "image") {
+      if (data.media_type === "image" && data.url) {
         setBackground(data.url);
-        media = `<img src="${data.url}" alt="${data.title}"/>`;
-      } else if (data.url.includes("youtube")) {
+        media = `<img src="${data.url}" alt="${data.title || ""}"/>`;
+      } else if (data.url && data.url.includes("youtube")) {
         media = `<iframe src="${data.url.replace("watch?v=", "embed/")}" allowfullscreen></iframe>`;
-      } else {
+      } else if (data.media_type === "video" && data.url) {
         media = `<video src="${data.url}" controls></video>`;
+      } else {
+        // No usable NASA image/video (e.g. missing key or error object).
+        // Show a stable NASA picture so the daily panel never breaks.
+        setBackground(FALLBACK_APOD_IMAGES[0]);
+        media = `<img src="${FALLBACK_APOD_IMAGES[0]}" alt="NASA image of the day"/>`;
       }
 
       app.innerHTML = `
