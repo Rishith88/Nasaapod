@@ -1,22 +1,19 @@
 # Astronomy — NASA APOD New Tab Page
 
 A custom new-tab page that fetches "NASA's Astronomy Picture of the Day" and wraps it in a full dashboard -- live clock, search, weather, shortcuts, todos, notes, and a focus timer. Built with Vite + vanilla JavaScript.
-
-> Built for [Hack Club Stardance](https://stardance.hackclub.com) — Mission: "Give Your Website a Pulse"
-
 ## Features
 
-1 NASA APOD -- fetches the Astronomy Picture of the Day from the official API: title, image (or video/YouTube embed), and explanation, updated automatically every day
-2 Live clock & date --The  big glowing Nunito clock with an hour-based greeting looks intercative and futuristic.
-3 Smart search bar -- URLs, domains, or queries; "Ctrl+K" focuses it.Now even the search bar is creative
-4 Speed dial -- editable shortcuts with emoji icons (stored in "localStorage")
-5 Weather widget -- Open-Meteo API, no key needed, cached for 10 minutes.Pretty easy to configure.
-6 To-do list -- add/check/delete/clear tasks ("Ctrl+N" to add)
-7 Notes panel -- It has a auto-saving scratchpad
-8 Focus timer -- It includes a pomodoro ring with 25/45/60 min modes and is combined with a browser notification
-9 Starfield -- canvas-based twinkling stars and random shooting stars
-10 Animations -- orbit loading animation, staggered content reveals, hover zoom on the image
-11 Keyboard shortcuts -- 'Esc' closes panels, 'Ctrl+K' search, 'Ctrl+N' todo
+ NASA APOD -- fetches the Astronomy Picture of the Day from the official API: title, image (or video/YouTube embed), and explanation, updated automatically every day
+ Live clock & date --The  big glowing Nunito clock with an hour-based greeting looks intercative and futuristic.
+ Smart search bar -- URLs, domains, or queries; "Ctrl+K" focuses it.Now even the search bar is creative
+ Speed dial -- editable shortcuts with emoji icons (stored in "localStorage")
+ Weather widget -- Open-Meteo API, no key needed, cached for 10 minutes.Pretty easy to configure.
+ To-do list -- add/check/delete/clear tasks ("Ctrl+N" to add)
+ Notes panel -- It has a auto-saving scratchpad
+ Focus timer -- It includes a pomodoro ring with 25/45/60 min modes and is combined with a browser notification
+ Starfield -- canvas-based twinkling stars and random shooting stars
+ Animations -- orbit loading animation, staggered content reveals, hover zoom on the image
+ Keyboard shortcuts -- 'Esc' closes panels, 'Ctrl+K' search, 'Ctrl+N' todo
 
 How to Get started
 
